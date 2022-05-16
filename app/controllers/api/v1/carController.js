@@ -2,16 +2,18 @@
  * @file contains request handler of post resource
  * @author Fikri Rahmat Nurhidayat
  */
-const postService = require("../../../services/postService");
+const carService = require("../../../services/carService");
 
 module.exports = {
   list(req, res) {
-    postService
-      .list()
+    carService
+      .list({
+        where: { isDeleted: false },
+      })
       .then(({ data, count }) => {
         res.status(200).json({
           status: "OK",
-          data: { posts: data },
+          data: { cars: data },
           meta: { total: count },
         });
       })
@@ -23,13 +25,36 @@ module.exports = {
       });
   },
 
+  listArgs(args) {
+    return async (req, res) => {
+      carService
+        .list(args)
+        .then(({ data, count }) => {
+          res.status(200).json({
+            status: "OK",
+            data: { cars: data },
+            meta: { total: count },
+          });
+        })
+        .catch((err) => {
+          res.status(400).json({
+            status: "FAIL",
+            message: err.message,
+          });
+        });
+    };
+  },
+
   create(req, res) {
-    postService
+    console.log(req.body);
+    req.body.createdBy = req.user.username;
+    carService
       .create(req.body)
-      .then((post) => {
+      .then((car) => {
         res.status(201).json({
           status: "OK",
-          data: post,
+          message: `Successfully created new car by ${req.user.username}`,
+          data: car,
         });
       })
       .catch((err) => {
@@ -41,11 +66,14 @@ module.exports = {
   },
 
   update(req, res) {
-    postService
+    console.log(req.user);
+    req.body.updatedBy = req.user.username;
+    carService
       .update(req.params.id, req.body)
       .then(() => {
         res.status(200).json({
           status: "OK",
+          message: `Successfully updated car by ${req.user.username}`,
         });
       })
       .catch((err) => {
@@ -57,7 +85,7 @@ module.exports = {
   },
 
   show(req, res) {
-    postService
+    carService
       .get(req.params.id)
       .then((post) => {
         res.status(200).json({
@@ -73,11 +101,16 @@ module.exports = {
       });
   },
 
-  destroy(req, res) {
-    postService
-      .delete(req.params.id)
-      .then(() => {
-        res.status(204).end();
+  makeCarDeleted(req, res) {
+    carService
+      .isCarDeleted(req.params.id, {
+        isDeleted: true,
+        deletedBy: req.user.username,
+      })
+      .then((car) => {
+        res.status(200).json({
+          deletedBy: req.user.username,
+        });
       })
       .catch((err) => {
         res.status(422).json({

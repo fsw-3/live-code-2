@@ -32,4 +32,4 @@ Di dalam repository ini sudah terdapat beberapa script yang dapat digunakan dala
 - `/findbyid/:id` untuk melihat data berdasarkan id `5pts`
 - `/update/:id` untuk mengubah data berdasarkan id (memerlukan token) `10pts`
 - `/delete/:id` untuk menghapus data berdasarkan id (memerlukan token) `10pts`
-- `/docs` untuk melihat dokumentasi API   `30pts`
+- `/docs` untuk melihat dokumentasi API `30pts`

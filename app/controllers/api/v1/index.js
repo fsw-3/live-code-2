@@ -3,8 +3,10 @@
  * @author Fikri Rahmat Nurhidayat
  */
 
-const postController = require("./postController");
+const userController = require("./userController");
+const carController = require("./carController");
 
 module.exports = {
-  postController,
+  userController,
+  carController,
 };
