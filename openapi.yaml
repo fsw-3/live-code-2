@@ -129,7 +129,7 @@ paths:
                     example: Email / Password  salah
       
 
-  /cars/add:
+  /create:
     post:
       tags:
         - CRUD
@@ -139,22 +139,18 @@ paths:
             schema:
               type: object
               properties:
-                type_name:
+                name:
                   type: string
-                  example: Avanza
-                rent_per_day:
+                  example: zorro
+                age:
                   type: integer
-                  example: 200000
-                size: 
+                  example: 7
+                breed:
                   type: string
-                  example: medium
-                image:
-                  type: string
-                  example: https://www.toyota.astra.co.id/sites/default/files/2021-11/4-avanza-silver-mica-metallic.png
-        
+                  example: persia
       responses:
         201:
-          description: New Car Data Created
+          description: New Cat Data Created
           content:
             application/x-www-form-urlencoded:
               schema:
@@ -169,31 +165,28 @@ paths:
                       id:
                         type: integer
                         example: 2
-                      type_name:
+                      name:
                         type: string
-                        example: Avanza
-                      rent_per_day:
+                        example: zorro
+                      age:
                         type: integer
-                        example: 200000
-                      size: 
+                        example: 7
+                      breed:
                         type: string
-                        example: medium
-                      image:
-                        type: string
-                        example: https://www.toyota.astra.co.id/sites/default/files/2021-11/4-avanza-silver-mica-metallic.png
+                        example: persia
                       updatedAt: 
                         type: string
                         format: date-time
                       createdAt: 
                         type: string
                         format: date-time
-  /cars:
+  /findAll:
     get:
       tags:
         - CRUD
       responses:
         200:
-          description: List of all cars data
+          description: List of all cats data
           content:
             application/x-www-form-urlencoded:
               schema:
@@ -211,18 +204,15 @@ paths:
                             id:
                               type: integer
                               example: 2
-                            type_name:
+                            name:
                               type: string
-                              example: Avanza
-                            rent_per_day:
+                              example: zorro
+                            age:
                               type: integer
-                              example: 200000
-                            size: 
+                              example: 7
+                            breed:
                               type: string
-                              example: medium
-                            image:
-                              type: string
-                              example: https://www.toyota.astra.co.id/sites/default/files/2021-11/4-avanza-silver-mica-metallic.png
+                              example: persia
                             updatedAt: 
                               type: string
                               format: date-time
@@ -234,25 +224,22 @@ paths:
                             id:
                               type: integer
                               example: 3
-                            type_name:
+                            name:
                               type: string
-                              example: BMW
-                            rent_per_day:
+                              example: muti
+                            age:
                               type: integer
-                              example: 500000
-                            size: 
+                              example: 1
+                            breed:
                               type: string
-                              example: small
-                            image:
-                              type: string
-                              example: https://www.bmw.co.id/content/dam/bmw/common/all-models/i-series/i4/navigation/bmw-i4-mini-landingpage-modelfinder.png
+                              example: british short hair
                             updatedAt: 
                               type: string
                               format: date-time
                             createdAt: 
                               type: string
                               format: date-time
-  /cars/update/{id}:
+  /update/{id}:
     post:
       tags:
         - CRUD
@@ -269,18 +256,15 @@ paths:
             schema:
               type: object
               properties:
-                type_name:
+                name:
                   type: string
-                  example: Avanza
-                rent_per_day:
+                  example: zorro
+                age:
                   type: integer
-                  example: 200000
-                size: 
+                  example: 7
+                breed:
                   type: string
-                  example: medium
-                image:
-                  type: string
-                  example: https://www.toyota.astra.co.id/sites/default/files/2021-11/4-avanza-silver-mica-metallic.png
+                  example: persia
       responses: 
         200:
           description: Data Updated
@@ -292,7 +276,7 @@ paths:
                   status:
                     type: string
                     example: OK
-  /cars/delete/{id}:
+  /delete/{id}:
     get:
       tags:
         - CRUD
@@ -311,7 +295,7 @@ paths:
               schema:
                 type: integer
                 example: 1
-  /cars/{id}:
+  /findbyid/{id}:
     get:
       tags:
         - CRUD
@@ -324,7 +308,7 @@ paths:
             example: 1
       responses:
         200:
-          description: Login Success
+          description: Find Data By Id
           content:
             application/x-www-form-urlencoded:
               schema:
@@ -339,18 +323,15 @@ paths:
                       id:
                         type: integer
                         example: 2
-                      type_name:
+                      name:
                         type: string
-                        example: Avanza
-                      rent_per_day:
+                        example: zorro
+                      age:
                         type: integer
-                        example: 200000
-                      size: 
+                        example: 7
+                      breed:
                         type: string
-                        example: medium
-                      image:
-                        type: string
-                        example: https://www.toyota.astra.co.id/sites/default/files/2021-11/4-avanza-silver-mica-metallic.png
+                        example: persia
                       updatedAt: 
                         type: string
                         format: date-time
