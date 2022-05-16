@@ -5,11 +5,12 @@
 
 /** Destruct environment variable to get database configuration */
 const {
-  DB_USERNAME = null,
-  DB_PASSWORD = null,
-  DB_HOST = "127.0.0.1",
-  DB_NAME = "database",
+  DB_USERNAME = "postgres",
+  DB_PASSWORD = "070401",
+  DB_HOST = "localhost",
+  DB_NAME = "livecode2",
 } = process.env;
+
 
 module.exports = {
   development: {
