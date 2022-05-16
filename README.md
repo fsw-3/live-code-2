@@ -25,11 +25,11 @@ Di dalam repository ini sudah terdapat beberapa script yang dapat digunakan dala
 
 ## Endpoint List
 
-- '/register' untuk mendaftarkan user baru (password harus di-encrypt sebelum masuk db)
-- '/login' untuk masuk ke dalam aplikasi (menggunakan jwt)
-- '/create' untuk membuat data baru (memerlukan token)
-- '/find-all' untuk melihat seluruh data
-- '/findbyid/:id' untuk melihat data berdasarkan id
-- '/update/:id' untuk mengubah data berdasarkan id (memerlukan token)
-- '/delete/:id' untuk menghapus data berdasarkan id (memerlukan token)
--  '/docs' untuk melihat dokumentasi API  
+- `/register` untuk mendaftarkan user baru (password harus di-encrypt sebelum masuk db)
+- `/login` untuk masuk ke dalam aplikasi (menggunakan jwt)
+- `/create` untuk membuat data baru (memerlukan token)
+- `/find-all` untuk melihat seluruh data
+- `/findbyid/:id` untuk melihat data berdasarkan id
+- `/update/:id` untuk mengubah data berdasarkan id (memerlukan token)
+- `/delete/:id` untuk menghapus data berdasarkan id (memerlukan token)
+- `/docs` untuk melihat dokumentasi API  
