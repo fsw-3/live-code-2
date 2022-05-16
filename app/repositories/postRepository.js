@@ -1,31 +1,18 @@
-const { Post } = require("../models");
+const { User } = require("../models");
+const bcrypt = require("bcrypt");
 
 module.exports = {
-  create(createArgs) {
-    return Post.create(createArgs);
+  register(data) {
+    const hashPassword = bcrypt.hashSync(data.Password, 10);
+    data.password = hashPassword;
+    return User.create(data);
   },
 
-  update(id, updateArgs) {
-    return Post.update(updateArgs, {
+  findByEmail(email) {
+    return User.findOne({
       where: {
-        id,
-      },
-    });
-  },
-
-  delete(id) {
-    return Post.destroy(id);
-  },
-
-  find(id) {
-    return Post.findByPk(id);
-  },
-
-  findAll() {
-    return Post.findAll();
-  },
-
-  getTotalPost() {
-    return Post.count();
-  },
+        email,
+      }
+    })
+  }
 };
