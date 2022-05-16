@@ -1,0 +1,60 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "LIVECODE API",
+      "description": "OpenAPI for LIVECODE",
+      "version": "1"
+      },
+    "license": {
+        "name": "APACHE 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "tags": [
+      {
+        "name": "livecode API",
+        "description": "LIVECODE API"
+      }
+    ],
+    "servers": [
+      {
+        "description": "LIVECODEAPI Server",
+        "url": "http://localhost:8000/{env}",
+        "variables": {
+          "env": {
+            "description": "Server Environment",
+            "default": "api/v1",
+            "enum": ["api/v1", "dev"]
+          }
+        }
+      }
+    ],
+    "paths": {
+      "/register": {
+        "post": {
+          "tags": ["Register"],
+          "summary": "REGISTER DATA",
+          "description": "Register Data",
+          "responses": {
+            "200": {
+              "description": "create new user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+}
