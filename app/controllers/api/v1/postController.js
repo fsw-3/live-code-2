@@ -86,4 +86,8 @@ module.exports = {
         });
       });
   },
+
+  document(req, res) {
+    res.render('apiDocumentation');
+  }
 };

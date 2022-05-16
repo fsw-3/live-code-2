@@ -15,11 +15,11 @@ module.exports = {
 
   async list() {
     try {
-      const posts = await postRepository.findAll();
-      const postCount = await postRepository.getTotalPost();
+      const cats = await postRepository.findAll();
+      const postCount = await postRepository.getTotalCat();
 
       return {
-        data: posts,
+        data: cats,
         count: postCount,
       };
     } catch (err) {
