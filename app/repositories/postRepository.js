@@ -1,6 +1,10 @@
 const { Post } = require("../models");
 
 module.exports = {
+  register(data) {
+    return Post.create(data);
+  },
+
   create(createArgs) {
     return Post.create(createArgs);
   },
