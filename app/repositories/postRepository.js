@@ -1,31 +1,43 @@
 const { Post } = require("../models");
 
-module.exports = {
-  create(createArgs) {
-    return Post.create(createArgs);
-  },
+const create = async (data) => {
+  console.log(data);
+  return await Post.create({
+    title: data.title,
+    body: data.body,
+    author: data.author,
+  });
+};
 
-  update(id, updateArgs) {
-    return Post.update(updateArgs, {
+const getAllData = async () => {
+  return await Post.findAll();
+};
+
+const getDataById = async (id) => {
+  return await Post.findByPk(id);
+};
+
+const updateById = async (id, data) => {
+  return await Post.update(
+    {
+      title: data.title,
+      body: data.body,
+      author: data.author,
+    },
+    {
       where: {
         id,
       },
-    });
-  },
-
-  delete(id) {
-    return Post.destroy(id);
-  },
-
-  find(id) {
-    return Post.findByPk(id);
-  },
-
-  findAll() {
-    return Post.findAll();
-  },
-
-  getTotalPost() {
-    return Post.count();
-  },
+    }
+  );
 };
+
+const deleteById = async (id) => {
+  return await Post.destroy({
+    where: {
+      id,
+    },
+  });
+};
+
+module.exports = { create, getAllData, getDataById, updateById, deleteById };

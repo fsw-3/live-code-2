@@ -4,86 +4,95 @@
  */
 const postService = require("../../../services/postService");
 
-module.exports = {
-  list(req, res) {
-    postService
-      .list()
-      .then(({ data, count }) => {
-        res.status(200).json({
-          status: "OK",
-          data: { posts: data },
-          meta: { total: count },
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({
-          status: "FAIL",
-          message: err.message,
-        });
-      });
-  },
-
-  create(req, res) {
-    postService
-      .create(req.body)
-      .then((post) => {
-        res.status(201).json({
-          status: "OK",
-          data: post,
-        });
-      })
-      .catch((err) => {
-        res.status(422).json({
-          status: "FAIL",
-          message: err.message,
-        });
-      });
-  },
-
-  update(req, res) {
-    postService
-      .update(req.params.id, req.body)
-      .then(() => {
-        res.status(200).json({
-          status: "OK",
-        });
-      })
-      .catch((err) => {
-        res.status(422).json({
-          status: "FAIL",
-          message: err.message,
-        });
-      });
-  },
-
-  show(req, res) {
-    postService
-      .get(req.params.id)
-      .then((post) => {
-        res.status(200).json({
-          status: "OK",
-          data: post,
-        });
-      })
-      .catch((err) => {
-        res.status(422).json({
-          status: "FAIL",
-          message: err.message,
-        });
-      });
-  },
-
-  destroy(req, res) {
-    postService
-      .delete(req.params.id)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch((err) => {
-        res.status(422).json({
-          status: "FAIL",
-          message: err.message,
-        });
-      });
-  },
+const create = async (req, res) => {
+  const data = {
+    title: req.body.title,
+    body: req.body.body,
+    author: req.body.author,
+  };
+  try {
+    await postService.create(data);
+  } catch (error) {
+    if (error) {
+      return res.status(400).send(error.message);
+    }
+  }
+  res.status(201).send({
+    message: "Post created",
+    data,
+  });
 };
+
+const list = async (req, res) => {
+  try {
+    const data = await postService.getAllData();
+    res.status(200).send(data);
+  } catch (error) {
+    if (error) {
+      return res.status(400).send(error.message);
+    }
+  }
+};
+
+const dataById = async (req, res) => {
+  try {
+    const exist = await postService.getDataById(req.params.id);
+    if (!exist) {
+      return res.status(404).send({
+        message: `Post with id ${req.params.id} is not found`,
+      });
+    }
+    const data = await postService.getDataById(req.params.id);
+    res.status(200).send(data);
+  } catch (error) {
+    if (error) {
+      return res.status(400).send(error.message);
+    }
+  }
+};
+
+const updateData = async (req, res) => {
+  try {
+    const exist = await postService.getDataById(req.params.id);
+    if (!exist) {
+      return res.status(404).send({
+        message: `Post with id ${req.params.id} is not found`,
+      });
+    }
+    const data = {
+      title: req.body.title,
+      body: req.body.body,
+      author: req.body.author,
+    };
+    await postService.updateById(req.params.id, data);
+    res.status(200).send({
+      message: "Post updated",
+      data,
+    });
+  } catch (error) {
+    if (error) {
+      return res.status(400).send(error.message);
+    }
+  }
+};
+
+const deleteData = async (req, res) => {
+  try {
+    const exist = await postService.getDataById(req.params.id);
+    if (!exist) {
+      return res.status(404).send({
+        message: `Post with id ${req.params.id} is not found`,
+      });
+    }
+    await postService.deleteById(req.params.id);
+    res.status(200).send({
+      message: `Post with id ${req.params.id} has been deleted`,
+    });
+  } catch (error) {
+    if (error) {
+      return res.status(400).send(error.message);
+    }
+  }
+};
+
+module.exports = { create, list, dataById, updateData, deleteData };

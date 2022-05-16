@@ -1,0 +1,394 @@
+openapi: 3.0.1
+info:
+  title: Live Code 2
+  description: 'Simple Documentation API'
+  version: 1.0.0
+servers:
+- url: http://localhost:8000
+tags:
+- name: User
+  description: User operation
+- name: Post
+  description: Post operation
+paths:
+  /login:
+    post:
+      tags:
+      - User
+      summary: Login
+      requestBody:
+        description: Object combination of email and password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+        required: true
+      responses:
+        404:
+          description: Email salah / Password salah
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loginError'
+        200:
+          description: Login berhasil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loginSuccess'
+  /register:
+    post:
+      tags:
+      - User
+      summary: Add new user
+      requestBody:
+        description: Object combination of email and password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: sbayu875@gmail.com
+                password:
+                  type: string
+                  example: 12345678
+        required: true
+      responses:
+        201:
+          description: User Berhasil Dibuat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createUser'
+        400:
+          description: Bad request
+          content: {}
+  /find-all:
+    get:
+      tags:
+      - Post
+      summary: Get all post
+      responses:
+        200:
+          description: Data fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/findAll'
+        400:
+          description: Bad request
+          content: {}
+  /findbyid/{id}:
+    get:
+      tags:
+      - Post
+      summary: Get post by id
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      responses:
+        200:
+          description: Data updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/findAll'
+        400:
+          description: Bad request
+          content: {}
+        404:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Post with id 6 is not found
+  /create:
+    post:
+      tags:
+      - Post
+      summary: Create new post
+      requestBody:
+        description: Object combination of title, body, and author
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Naruto
+                body:
+                  type: string
+                  example: Ini body
+                author:
+                  type: string
+                  example: J.K Rowling
+        required: true
+      responses:
+        201:
+          description: User Berhasil Dibuat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createPost'
+        401:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        400:
+          description: Bad request
+          content: {}
+      security:
+        - bearerAuth: []
+  /update/{id}:
+    put:
+      tags:
+      - Post
+      summary: Edit post
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      requestBody:
+        description: Object combination of title, body, and author
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Naruto
+                body:
+                  type: string
+                  example: Ini body
+                author:
+                  type: string
+                  example: J.K Rowling
+        required: true
+      responses:
+        201:
+          description: Post Berhasil Diedit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updatePost'
+        401:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        400:
+          description: Bad request
+          content: {}
+        404:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Post with id 6 is not found
+      security:
+        - bearerAuth: []
+  /delete/{id}:
+    delete:
+      tags:
+      - Post
+      summary: Delete post
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      responses:
+        200:
+          description: Post Berhasil Diedit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Post with id 6 has been deleted
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        404:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Post with id 6 is not found
+        400:
+          description: Bad request
+          content: {}
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    createUser:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User created
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              example: sbayu875@gmail.com
+            password:
+              type: string
+              example: $2b$10$8ogM/0DW7.5qoTb4RH1Q8e6Nub2/kB6qo9RArzCxh9NnfbUx3k.cK
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+    login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sbayu875@gmail.com
+        password:
+          type: string
+          example: 12345678
+    loginSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Login success
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InNiYXl1ODc1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJHB1clZaZFRsWllvV3hwL2JnSnZyL3ViMUZ0clJyakhLd1NDOFU2S3hZQTZLdHVmNGVUTmVTIiwiY3JlYXRlZEF0IjoiMjAyMi0wNC0yNlQxMzowMjoxOC42MjBaIiwidXBkYXRlZEF0IjoiMjAyMi0wNC0yNlQxMzowMjoxOC42MjBaIn0sInJvbGUiOiJTdXBlcmFkbWluIiwiaWF0IjoxNjUxMTg2MjQzfQ.al7YQSyfCBt0yiwkdt_pIHKutA7jt5uHZ62HOivDj60
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              example: sbayu875@gmail.com
+            password:
+              type: string
+              example: $2b$10$8ogM/0DW7.5qoTb4RH1Q8e6Nub2/kB6qo9RArzCxh9NnfbUx3k.cK
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+    loginError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Email/Password salah
+    findAll:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Naruto
+        body:
+          type: string
+          example: Ini body
+        author:
+          type: string
+          example: Masashi Kishimoto
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    createPost:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Post created
+        data:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Naruto
+            body:
+              type: string
+              example: Ini body
+            author:
+              type: string
+              example: Masashi Kishimoto
+    updatePost:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Post updated
+        data:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Naruto
+            body:
+              type: string
+              example: Ini body
+            author:
+              type: string
+              example: Masashi Kishimoto
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
