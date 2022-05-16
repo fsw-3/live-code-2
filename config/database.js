@@ -8,7 +8,7 @@ const {
   DB_USERNAME = "postgres",
   DB_PASSWORD = "postgres",
   DB_HOST = "127.0.0.1",
-  DB_NAME = "livecode2",
+  DB_NAME = "livecode_binar",
 } = process.env;
 
 module.exports = {

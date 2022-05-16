@@ -5,14 +5,13 @@
 const postService = require("../../../services/postService");
 
 module.exports = {
-  list(req, res) {
+  register(req, res) {
     postService
-      .list()
-      .then(({ data, count }) => {
+      .register(req.body)
+      .then(({data}) => {
         res.status(200).json({
           status: "OK",
-          data: { posts: data },
-          meta: { total: count },
+          data,
         });
       })
       .catch((err) => {
