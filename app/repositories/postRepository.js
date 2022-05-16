@@ -1,31 +1,29 @@
-const { Post } = require("../models");
+const { User, Car } = require("../models");
 
 module.exports = {
-  create(createArgs) {
-    return Post.create(createArgs);
+  register(data) {
+    return User.create(data);
   },
 
-  update(id, updateArgs) {
-    return Post.update(updateArgs, {
-      where: {
-        id,
-      },
+  findByEmail(email) {
+    return User.findOne({
+      where: { email }
     });
   },
 
-  delete(id) {
-    return Post.destroy(id);
+  getAll(data) {
+    return Car.findAll(data);
   },
 
-  find(id) {
-    return Post.findByPk(id);
+  create(data) {
+    return Car.create(data);
   },
 
-  findAll() {
-    return Post.findAll();
+  delete(data) {
+    return Car.destroy(data);
   },
 
-  getTotalPost() {
-    return Post.count();
-  },
+  update(data) {
+    return Car.update(data);
+  }
 };
