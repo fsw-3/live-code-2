@@ -1,58 +1,33 @@
 const postRepository = require("../repositories/postRepository");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 module.exports = {
-  async register(data) {
-    data.password = await this.encryptPassword(data.password);
-    return postRepository.register(data);
+  create(requestBody) {
+    return postRepository.create(requestBody);
   },
 
-  async login(data) {
-    data.email = data.email.toLowerCase();
+  update(id, requestBody) {
+    return postRepository.update(id, requestBody);
+  },
 
-    const user = await postRepository.findByEmail(data.email);
+  delete(id) {
+    return postRepository.delete(id);
+  },
 
-    if (!user) {
-      throw new Error('Email tidak ditemukan');
+  async list() {
+    try {
+      const posts = await postRepository.findAll();
+      const postCount = await postRepository.getTotalPost();
+
+      return {
+        data: posts,
+        count: postCount,
+      };
+    } catch (err) {
+      throw err;
     }
-
-    const isPasswordCorrect = await this.checkPassword(
-      user.password,
-      data.password
-    );
-
-    if (!isPasswordCorrect) {
-      throw new Error('Password salah');
-    }
-
-    const token = await this.createToken({
-      email: data.email,
-      password: data.password 
-    });
-
-    return {
-      email: data.email,
-      token
-    };
   },
 
-  async encryptPassword(password) {
-    return bcrypt.hashSync(password, 10);
+  get(id) {
+    return postRepository.find(id);
   },
-
-  async checkPassword(encryptedPassword, bodyPassword) {
-    return bcrypt.compare(
-      bodyPassword,
-      encryptedPassword,
-    );
-  },
-
-  async createToken(data) {
-    return jwt.sign(data, process.env.JWT_SECRET);
-  },
-
-  async create(data) {
-    return postRepository.create(data);
-  }
 };
